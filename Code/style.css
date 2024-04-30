@@ -1,0 +1,326 @@
+/* Variables */
+* {
+    --primaryColor: rgb(30, 30, 30);
+    --secondaryColor: #1c2f41;
+    --thirdColor: rgb(80, 120, 120);
+
+    --primaryTextColor: rgb(255, 255, 255);
+    --secondaryTextColor: rgb(255, 83, 83);
+    --textColorHover: rgb(255, 213, 0);
+    --returnBackground: rgb(160, 0, 0);
+
+    --buttonColor: rgb(60, 60, 60);
+    --buttonOutline: rgb(31, 20, 57);
+
+    --boxShadowColor: rgb(0, 255, 0);
+    --boxShadowColorHover: rgb(150, 0, 150);
+
+    --correctColor: rgb(100, 200, 0);
+
+    --primaryFont: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    --hideOpacity: 0%;
+    --workOpacity: 100%;
+}
+
+/* Menu */
+#menu {
+    display: block;
+    visibility: visible;
+
+    opacity: var(--workOpacity);
+    background-color: var(--primaryColor);
+
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0%;
+}
+
+#menuButtons {
+    width: 75%;
+    height: 65%;
+   
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+}
+
+.menuButton {
+    background-color: var(--secondaryColor);
+
+    width: 30%;
+    height: 60%;
+
+    border-radius: 200px;
+
+    box-shadow: 0 0 100px var(--boxShadowColor);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--primaryTextColor);
+    font-size: 750%;
+    text-align: center;
+ 
+    font-family: var(--primaryFont);
+}
+
+.menuButton:hover {
+    box-shadow: 0 0 100px var(--boxShadowColorHover);
+    color: var(--textColorHover) 
+}
+
+/* Mode */
+#modeButtons {
+    display: none;
+    visibility: hidden;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primaryColor);
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(3, auto);
+    justify-items: center;
+    align-items: center;
+}
+
+.modeButton {
+    background-color: var(--secondaryColor);
+
+    width: 50%;
+    height: 60%;
+
+    border-radius: 200px;
+
+    box-shadow: 0 0 35px var(--boxShadowColor);
+
+    color: var(--primaryTextColor);
+    font-size: 250%;
+    text-align: center;
+    font-family: var(--primaryFont);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modeButton:hover {
+    box-shadow: 0 0 100px var(--boxShadowColorHover);
+    color: var(--textColorHover);
+
+}
+
+/* Game */
+#game {
+    display: none;
+    visibility: hidden;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primaryColor);
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5%;
+}
+
+#gameWindow {
+    width: 55%;
+    height: 75%;
+
+    background-color: var(--secondaryColor);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+}
+
+#flagDisplay {
+    width: 60%;
+    height: 40%;
+
+    background-size: cover;
+
+    background-position: center;
+    background-color: var(--primaryColor);
+
+    border-radius: 5px;
+}
+
+#options {
+    width: 55%;
+    height: 35%;
+
+    background-color: var(--primaryColor);
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 1%;
+    justify-items: center;
+    align-items: center;
+
+    border-radius: 5px;
+}
+
+.button {
+    background-color: var(--buttonColor);
+
+    width: 72.5%;
+    height: 70%;
+
+    border-radius: 15px;
+    box-shadow: 0 0 15px var(--boxShadowColor);
+
+    color: var(--primaryTextColor);
+    font-family: var(--primaryFont);
+    font-size: 275%;
+    text-align: center;
+}
+
+.button:hover{
+    color: var(--textColorHover);
+    box-shadow: 0 0 50px var(--boxShadowColorHover);
+}
+
+/* Result */
+#result {
+    display: none;
+    visibility: hidden;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primaryColor);
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+}
+
+#resultContinent {
+    color: var(--primaryTextColor);
+    font-family: var(--primaryFont);
+    font-size: 500%;
+}
+
+#resultScore {
+    color: var(--primaryTextColor);
+    font-family: var(--primaryFont);
+    font-size: 500%;
+}
+
+#resultBar {
+    background-color: var(--secondaryColor);
+    width: 55%;
+    height: 15%;
+}
+
+#correctBar {
+    background-color:var(--correctColor);
+
+    width: 0%;
+    height: 100%;
+}
+
+/* Stats */
+#statsDiv {
+    display: none;
+    visibility: hidden;
+
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primaryColor);
+
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5%;
+}
+
+#statTitle {
+    color: var(--primaryTextColor);
+    font-family: var(--primaryFont);
+    font-size: 500%;
+}
+
+#statDiv {
+    background-color: var(--secondaryColor);
+
+    width: 70%;
+    height: 70%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3%;
+}
+
+.stat {
+    background-color: var(--thirdColor);
+    width: 75%;
+    height: 13%;
+
+    color: var(--primaryTextColor);
+    font-family: var(--primaryFont);
+    font-size: 250%;
+    text-align: center;
+}
+
+/* Return */
+#returnButton {
+    background-color: var(--returnBackground);
+    border-radius: 15px;
+
+    width: 7.5vw;
+    height: 7.5vw;
+
+    position: absolute;
+    left: 90%;
+    top: 15%;
+    transform: translate(-50%, -50%);
+
+    color: var(--primaryTextColor);
+    font-family: var(--primaryFont);
+    font-size: 800%;
+    text-align: center;
+}
