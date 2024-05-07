@@ -10,6 +10,7 @@ let elements = {
 
     // Sub
     menuButtons: document.querySelector("#menuButtons"),
+    flagCount: document.querySelector("#flagCount"),
     flagDisplay: document.querySelector("#flagDisplay"),
     options: document.querySelector("#options"),
 
@@ -47,7 +48,7 @@ const flags = {
     Europe: ["albania", "austria", "belarus", "belgium", "bosnia_and_herzegovina", "bulgaria", "czech_republic", "denmark", "estonia", "finland", "france", "germany", "greece", "hungary", "iceland", "ireland", "italy", "kosovo", "latvia", "liechtenstein", "lithuania", "luxembourg", "malta", "moldova", "monaco", "montenegro", "netherlands", "north_macedonia", "norway", "portugal", "romania", "russia", "san_marino", "serbia", "slovakia", "slovenia", "spain", "sweden", "switzerland", "ukraine", "united_kingdom"],
     NorthAmerica: ["belize", "canada", "costa_rica", "cuba", "dominican_republic", "el_salvador", "guatemala", "haiti", "honduras", "jamaica", "mexico", "nicaragua", "panama", "united_states"],
     SouthAmerica: ["argentina", "bolivia", "brazil", "chile", "colombia", "ecuador", "guyana", "paraguay", "peru", "suriname", "uruguay", "venezuela"],
-    Asia: [],
+    Asia: ["afghanistan", "armenia", "azerbaijan", "bahrain", "bangladesh", "bhutan", "brunei", "cambodia", "china", "georgia", "india", "indonesia", "iran", "iraq", "israel", "japan", "jordan", "kazakhstan", "kuwait", "kyrgyzstan", "laos", "lebanon", "malaysia", "mongolia", "myanmar", "nepal", "north_korea", "oman", "pakistan", "philippines", "qatar", "russia", "saudi_arabia", "singapore", "south_korea", "syria", "taiwan", "tajikistan", "thailand", "turkey", "turkmenistan", "united_arab_emirates", "uzbekistan", "vietnam", "yemen"],
     Africa: [],
     Oceania: [],
 };
@@ -76,6 +77,10 @@ function ReturnMenu() {
     elements.stats.style.visibility = "hidden";
     elements.game.style.visibility = "hidden";
     elements.result.style.visibility = "hidden";
+
+    gameConditions.userScore = 0;
+    gameConditions.newFlags = [];
+
     canPlay = false;
 }
 
@@ -180,12 +185,15 @@ function SelectFlag() {
     const correctButton = buttons[randomIndex];
     correctButton.innerHTML = flagToDisplay;
     
+    const decoys = [];
     for (const button of buttons) {
         if (button.id !== correctButton.id) {
             while (true) {
                 const decoyIndex = Math.floor(Math.random() * flags[gameConditions.continent].length);
-                if (decoyIndex !== gameConditions.newFlags[0]) {
+                const decoyFlag = flags[gameConditions.continent][decoyIndex];
+                if (decoyFlag !== gameConditions.newFlags[0] && !decoys[decoyFlag]) {
                     button.innerHTML = flags[gameConditions.continent][decoyIndex];
+                    decoys.push(flags[gameConditions.continent][decoyIndex]);
                     break
                 }
             }
@@ -196,29 +204,36 @@ function SelectFlag() {
 
 function Guess(event) {
     if (canPlay === true) {
-        canPlay = false;
         const button = event.target;
         const flagGuess = button.innerHTML;
-    
-        if (flagGuess === gameConditions.newFlags[0]) {
-            console.log("correct");
-            gameConditions.userScore += 1
-            button.style.backgroundColor = colors.correct;
-        } else {
-            console.log("incorrect");
-            button.style.backgroundColor = colors.incorrect;
+        for (const flagCheck of flags[gameConditions.continent]) {
+            console.log(flagGuess, "|", flagCheck);
+            if (flagGuess === flagCheck) {
+                canPlay = false;
+                if (flagGuess === gameConditions.newFlags[0]) {
+                    console.log("correct");
+                    gameConditions.userScore += 1
+                    button.style.backgroundColor = colors.correct;
+                } else {
+                    console.log("incorrect");
+                    button.style.backgroundColor = colors.incorrect;
+                }
+        
+                elements.flagCount.innerHTML = `${gameConditions.userScore} / ${flags[gameConditions.continent].length}`
+            
+                setTimeout(function() {
+                   button.style.backgroundColor = colors.default;
+                   gameConditions.newFlags.splice(0, 1);
+                   if (gameConditions.newFlags.length === 0) {
+                        SaveData(true);
+                        GoResults();
+                   } else {
+                        SelectFlag();
+                   }
+                }, 1000);
+                break;
+            }
         }
-    
-        setTimeout(function() {
-           button.style.backgroundColor = colors.default;
-           gameConditions.newFlags.splice(0, 1);
-           if (gameConditions.newFlags.length === 0) {
-                SaveData(true);
-                GoResults();
-           } else {
-                SelectFlag();
-           }
-        }, 2000);
     }
 }
 
