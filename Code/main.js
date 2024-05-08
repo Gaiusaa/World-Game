@@ -16,7 +16,8 @@ let elements = {
 
     resultContinent: document.querySelector("#resultContinent"),
     resultScore: document.querySelector("#resultScore"),
-    correctBar: document.querySelector("#correctBar")
+    correctBar: document.querySelector("#correctBar"),
+    percentage: document.querySelector("#percentageText"),
 };
 
 const buttons = [
@@ -49,8 +50,8 @@ const flags = {
     NorthAmerica: ["belize", "canada", "costa_rica", "cuba", "dominican_republic", "el_salvador", "guatemala", "haiti", "honduras", "jamaica", "mexico", "nicaragua", "panama", "united_states"],
     SouthAmerica: ["argentina", "bolivia", "brazil", "chile", "colombia", "ecuador", "guyana", "paraguay", "peru", "suriname", "uruguay", "venezuela"],
     Asia: ["afghanistan", "armenia", "azerbaijan", "bahrain", "bangladesh", "bhutan", "brunei", "cambodia", "china", "georgia", "india", "indonesia", "iran", "iraq", "israel", "japan", "jordan", "kazakhstan", "kuwait", "kyrgyzstan", "laos", "lebanon", "malaysia", "mongolia", "myanmar", "nepal", "north_korea", "oman", "pakistan", "philippines", "qatar", "russia", "saudi_arabia", "singapore", "south_korea", "syria", "taiwan", "tajikistan", "thailand", "turkey", "turkmenistan", "united_arab_emirates", "uzbekistan", "vietnam", "yemen"],
-    Africa: [],
-    Oceania: [],
+    Africa: ["algeria", "angola", "benin", "botswana", "burkina_faso", "burundi", "cameroon", "cape_verde", "central_african_republic", "chad", "comoros", "democratic_repulic_congo", "djibouti", "egypt", "equatorial_guinea", "eritrea", "eswatini", "ethiopia", "gabon", "ghana", "guinea", "guinea_bissau", "ivory_coast", "kenya", "lesotho", "liberia", "libya", "madagascar", "malawi", "mali", "mauritania", "mauritius", "morocco", "mozambique", "namibia", "niger", "nigeria", "republic_congo", "rwanda", "são_tomé_and_príncipe", "senegal", "seychelles", "sierra_leone", "somalia", "south_africa", "south_sudan", "sudan", "tanzania", "the_gambia", "togo", "tunisia", "uganda", "zambia"],
+    Oceania: ["australia", "fiji", "kiribati", "marshall_islands", "micronesia", "nauru", "new_zealand", "palau", "papua_new_guinea", "samoa", "solomon_islands", "tonga", "tuvalu", "vanuatu"],
 };
 
 const colors = {
@@ -63,6 +64,7 @@ const extension = ".png";
 
 let gameConditions = {
     userScore: 0,
+    countScore: 0,
     remainingFlags: 0,
     continent: "none",
     newFlags: [],
@@ -98,7 +100,6 @@ function GoStats() {
 
         if (scoreData) {
             for (const element of scores) {
-                console.log(element);
                 let elementId = element.id;
                 if (elementId.split("_")[0] === continent) {
                     element.innerHTML = `${continent} - ${parseInt(scoreData)}`;
@@ -146,10 +147,11 @@ function SaveData(points) {
 }
 
 function GoResults() {
-    const percentage = (Math.floor((gameConditions.userScore / flags[gameConditions.continent].length) * 100));
+    const percent = (Math.floor((gameConditions.userScore / flags[gameConditions.continent].length) * 100));
     elements.resultContinent.innerHTML = gameConditions.continent;
     elements.resultScore.innerHTML = `${gameConditions.userScore} / ${flags[gameConditions.continent].length}`;
-    elements.correctBar.style.width = `${percentage}%`;
+    elements.correctBar.style.width = `${percent}%`;
+    elements.percentage.innerHTML = `${percent}%`
 
     elements.game.style.visibility = "hidden";
     elements.result.style.visibility = "visible";
@@ -207,7 +209,6 @@ function Guess(event) {
         const button = event.target;
         const flagGuess = button.innerHTML;
         for (const flagCheck of flags[gameConditions.continent]) {
-            console.log(flagGuess, "|", flagCheck);
             if (flagGuess === flagCheck) {
                 canPlay = false;
                 if (flagGuess === gameConditions.newFlags[0]) {
@@ -218,8 +219,8 @@ function Guess(event) {
                     console.log("incorrect");
                     button.style.backgroundColor = colors.incorrect;
                 }
-        
-                elements.flagCount.innerHTML = `${gameConditions.userScore} / ${flags[gameConditions.continent].length}`
+                gameConditions.countScore += 1;
+                elements.flagCount.innerHTML = `${gameConditions.countScore} / ${flags[gameConditions.continent].length}`
             
                 setTimeout(function() {
                    button.style.backgroundColor = colors.default;
@@ -254,7 +255,10 @@ function GameSetup(continent) {
     }
     gameConditions.continent = continent;
     gameConditions.userScore = 0;
+    gameConditions.countScore = 0;
     gameConditions.remainingFlags = gameConditions.newFlags.length;
+
+    elements.flagCount.innerHTML = `${gameConditions.countScore} / ${flags[gameConditions.continent].length}`;
 
     SelectFlag();
 }
